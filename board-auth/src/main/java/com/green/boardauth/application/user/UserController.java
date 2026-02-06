@@ -1,8 +1,8 @@
 package com.green.boardauth.application.user;
 
-import com.green.boardauth.application.model.UserSignInReq;
-import com.green.boardauth.application.model.UserSignInRes;
-import com.green.boardauth.application.model.UserSignUpReq;
+import com.green.boardauth.application.user.model.UserSignInReq;
+import com.green.boardauth.application.user.model.UserSignInRes;
+import com.green.boardauth.application.user.model.UserSignUpReq;
 import com.green.boardauth.configuration.model.JwtUser;
 import com.green.boardauth.configuration.model.ResultResponse;
 import com.green.boardauth.configuration.security.JwtTokenManager;

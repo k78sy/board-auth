@@ -1,11 +1,9 @@
 package com.green.boardauth.application.user;
 
-import com.green.boardauth.application.model.UserGetOneRes;
-import com.green.boardauth.application.model.UserSignInReq;
-import com.green.boardauth.application.model.UserSignInRes;
-import com.green.boardauth.application.model.UserSignUpReq;
-import com.green.boardauth.configuration.model.JwtUser;
-import com.green.boardauth.configuration.security.JwtTokenProvider;
+import com.green.boardauth.application.user.model.UserGetOneRes;
+import com.green.boardauth.application.user.model.UserSignInReq;
+import com.green.boardauth.application.user.model.UserSignInRes;
+import com.green.boardauth.application.user.model.UserSignUpReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
