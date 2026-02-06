@@ -2,6 +2,7 @@ package com.green.boardauth.application.user;
 
 import com.green.boardauth.application.model.UserGetOneRes;
 import com.green.boardauth.application.model.UserSignInReq;
+import com.green.boardauth.application.model.UserSignInRes;
 import com.green.boardauth.application.model.UserSignUpReq;
 import com.green.boardauth.configuration.model.JwtUser;
 import com.green.boardauth.configuration.security.JwtTokenProvider;
@@ -25,17 +26,20 @@ public class UserService {
         return userMapper.signUp(req);
     }
 
-    public int signIn(UserSignInReq req){
+    public UserSignInRes signIn(UserSignInReq req){
         UserGetOneRes res = userMapper.findByUid(req.getUid());
         log.info("res: {}", res);
         if(!passwordEncoder.matches(req.getUpw(), res.getUpw())){
-            return 0;
+            return null;
         }
         /// 로그인 성공? 예전에는 AT,RT를 FE에 전달했음. 지금은? >>보안쿠키 사용할거임
 //        JwtUser jwtUser = new JwtUser(res.getId());
 //        String accessToken = jwtTokenProvider.generateAccessToken(jwtUser);
 //        String refreshToken = jwtTokenProvider.generateRefreshToken(jwtUser);
 
-        return 1;
+        return UserSignInRes.builder()
+                .signedUserId( res.getId() )
+                .nm( res.getNm() )
+                .build();
     }
 }
