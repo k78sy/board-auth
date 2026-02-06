@@ -21,6 +21,7 @@ public class BoardController {
     @PostMapping
     public ResultResponse<?> postBoard(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                        @RequestBody BoardPostReq req){
+        log.info("통신됐다!");
         log.info("signedUserId: {}", userPrincipal.getSignedUserId());
         log.info("req: {}", req);
         return null;
