@@ -22,8 +22,11 @@ public class BoardController {
     public ResultResponse<?> postBoard(@AuthenticationPrincipal UserPrincipal userPrincipal,
                                        @RequestBody BoardPostReq req){
         log.info("통신됐다!");
+        req.setUserId(userPrincipal.getSignedUserId());
         log.info("signedUserId: {}", userPrincipal.getSignedUserId());
         log.info("req: {}", req);
-        return null;
+        int result = boardService.postBoard(req);
+        String message = result == 1? "등록성공" : "등록실패";
+        return new ResultResponse<>(message, result);
     }
 }
