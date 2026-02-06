@@ -3,6 +3,8 @@ package com.green.boardauth.configuration.security;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.green.boardauth.configuration.constants.ConstJwt;
 import com.green.boardauth.configuration.model.JwtUser;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -27,10 +29,10 @@ public class JwtTokenProvider {
         log.info("constJwt: {}", this.constJwt);
     }
 
-    public String generateAccessToken(JwtUser jwtUser){
+    public String generateAccessToken(JwtUser jwtUser){ // 토큰 만료 15분
         return generateToken(jwtUser , constJwt.getAccessTokenValidityMilliseconds());
     }
-    public String generateRefreshToken(JwtUser jwtUser){
+    public String generateRefreshToken(JwtUser jwtUser){ // 토큰 만료 15일
         return generateToken(jwtUser , constJwt.getRefreshTokenValidityMilliseconds());
     }
 
@@ -48,7 +50,7 @@ public class JwtTokenProvider {
                 .issuedAt(now) // Jwt 만든 일시 (토큰 생성일)
                 .expiration(new Date(now.getTime() + tokenValidityMilleSeconds)) // JWT 종료 일시(토큰 만료 일시)
                 .claim(constJwt.getClaimKey(), makeClaimMyUserToJson(jwtUser)) // JSON화된 객체를 받아 처리
-                /// ////// 키 , 밸유
+                /// ////// 키(signedUser) , 밸유(JwUser객체 JSON으로 변환하여 담김)
                 // signature
                 .signWith(secretKey)
                 .compact();
@@ -58,4 +60,22 @@ public class JwtTokenProvider {
         return objectMapper.writeValueAsString(jwtUser); // 객체>JSON문자열로 변환
     }
 
+
+    public JwtUser getJwtUserFromToken(String token){
+        Claims claims = getClaims(token);
+
+        //signedUser 키 값으로 담겨져 있는 value를 String타입으로 리턴
+        String json = claims.get(constJwt.getClaimKey(), String.class);
+
+        //JSON > Object, json문자열을 JwtUser 객체로 변환
+        return objectMapper.readValue(json, JwtUser.class);
+    }
+
+    private Claims getClaims(String token){
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
 }
