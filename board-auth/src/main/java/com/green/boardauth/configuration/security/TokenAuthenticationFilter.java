@@ -26,6 +26,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         // 쿠키에 AT 없음 = null 리턴
         // 쿠키에 AT가 있다면 = 주소값 넘어옴
         Authentication authentication = jwtTokenManager.getAuthentication(request);
+        log.info("authentication: {}", authentication);
         if(authentication != null){ //로그인 상태
             SecurityContextHolder.getContext().setAuthentication(authentication); //시큐리티 인증처리가 완료
         }
