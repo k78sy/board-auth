@@ -1,6 +1,15 @@
 <script setup>
 import boardService from '@/services/boardService';
 import { reactive } from 'vue';
+import { useAuthenticationStore } from '@/stores/authentication';
+import { useRouter } from 'vue-router';
+
+// const router = useRouter();
+
+// const authentication = useAuthenticationStore();
+// if (!authentication.state.isSigned){
+//     router.push('/');
+// }
 
 const state = reactive({
     board: {
