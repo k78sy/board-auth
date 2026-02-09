@@ -12,6 +12,11 @@ class UserService{
         const res = await axios.post(`${this.#url}/signin`, params)
         return res.data;        
     }
+    
+    async signOut(){
+        const res = await axios.post(`${this.#url}/signout`)
+        return res.data;
+    }
 }
 
 export default new UserService();

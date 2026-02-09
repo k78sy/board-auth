@@ -36,4 +36,8 @@ public class MyCookieUtil {
         }
         return null;
     }
+
+    public void deleteCookie(HttpServletResponse res, String cookieName, String cookiePath){
+        setCookie(res, cookieName, null, 0, cookiePath);
+    }
 }
