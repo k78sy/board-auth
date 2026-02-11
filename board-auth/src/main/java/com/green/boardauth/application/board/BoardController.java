@@ -1,9 +1,6 @@
 package com.green.boardauth.application.board;
 
-import com.green.boardauth.application.board.model.BoardGetMaxPageReq;
-import com.green.boardauth.application.board.model.BoardGetReq;
-import com.green.boardauth.application.board.model.BoardGetRes;
-import com.green.boardauth.application.board.model.BoardPostReq;
+import com.green.boardauth.application.board.model.*;
 import com.green.boardauth.configuration.model.ResultResponse;
 import com.green.boardauth.configuration.model.UserPrincipal;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +42,11 @@ public class BoardController {
         log.info("req: {}", req);
         int maxPage = boardService.getBoardMaxPage(req);
         return new ResultResponse<>(String.format("maxPage: %d", maxPage), maxPage);
+    }
+
+    @GetMapping("{id}")
+    public ResultResponse<?> getBoard(@PathVariable int id){
+        BoardGetOneRes detail = boardService.getBoardDetail(id);
+        return new ResultResponse<>(String.format("Article no: %d", id), detail);
     }
 }

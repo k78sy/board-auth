@@ -17,7 +17,8 @@ class BoardService{
     }
 
     async getBoard(id){
-        
+        const res = await axios.get(`${this.#url}/${id}`);
+        return res.data;
     }
 }
 

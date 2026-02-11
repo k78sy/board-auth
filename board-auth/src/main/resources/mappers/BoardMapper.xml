@@ -27,4 +27,11 @@
             OR contents LIKE '%${searchText}%'
         </if>
     </select>
+    <select id="findOne">
+        SELECT b.id, b.title, b.created_at, b.user_id, u.nm, b.contents
+        FROM board b
+        JOIN user u
+        ON b.user_id = u.id
+        WHERE b.id = #{b.id};
+    </select>
 </mapper>
