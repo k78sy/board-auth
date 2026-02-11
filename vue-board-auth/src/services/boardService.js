@@ -15,6 +15,10 @@ class BoardService{
         const res = await axios.get(`${this.#url}/max_page`, { params });
         return res.data;
     }
+
+    async getBoard(id){
+        
+    }
 }
 
 export default new BoardService();

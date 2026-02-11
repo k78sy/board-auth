@@ -1,12 +1,15 @@
 <script setup>
 import boardService from '@/services/boardService';
 import { onMounted, reactive, computed } from 'vue';
+import { useRouter } from 'vue-router';
 
-const scrollToTop = () => {
-    window.scrollTo({
-        top: 0        
-    });
-}; 
+const router = useRouter();
+
+// const scrollToTop = () => {
+//     window.scrollTo({
+//         top: 0        
+//     });
+// }; 
 
 const state = reactive({
     list: [],
@@ -14,7 +17,7 @@ const state = reactive({
     size: 50,
     currentPage: 1,
     maxPage: 0
-})
+});
 
 const getBoardMaxPage = async () => {
     const params = { size: state.size }
@@ -104,7 +107,7 @@ const goToLastPage = () => {
 }
 
 const moveToDetail = (id) =>{
-    alert(id)
+    router.push(`/board/${id}`)
 }
 </script>
 
@@ -126,7 +129,7 @@ const moveToDetail = (id) =>{
             </tr>
         </thead>
         <tbody>
-            <tr v-for="item in state.list" :key="item.id">
+            <tr v-for="item in state.list" :key="item.id" @click="moveToDetail(item.id)">
                 <td>{{ item.id }}</td>
                 <td>{{ item.title }}</td>
                 <td>{{ item.nm }}</td>
@@ -160,6 +163,11 @@ th:nth-of-type(2),td:nth-of-type(2){width: calc(100% - 300px);}
 th:nth-of-type(3),td:nth-of-type(3){width: 100px;}
 th:nth-of-type(4),td:nth-of-type(4){width: 160px;}
 
-.page{width: 100%;}
-.page span:not(:first-child){margin-left: 5px;}
+.pagination *{cursor: pointer;}
+.pagination button{}
+.pagination span{padding: 0 3px;}
+
+.page { cursor: pointer; }
+.page:not(:first-child) { margin-left: 8px; }
+.selected { color: red; font-weight: bold; }
 </style>
