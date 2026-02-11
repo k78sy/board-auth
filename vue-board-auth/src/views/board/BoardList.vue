@@ -1,6 +1,12 @@
 <script setup>
 import boardService from '@/services/boardService';
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, computed } from 'vue';
+
+const scrollToTop = () => {
+    window.scrollTo({
+        top: 0        
+    });
+}; 
 
 const state = reactive({
     list: [],
@@ -19,54 +25,126 @@ const getBoardMaxPage = async () => {
     state.maxPage = result.resultData;
 }
 
-onMounted(async () => {
-    getBoardMaxPage();
+// onMounted(async () => {
+//     getBoardMaxPage();
 
+//     const params = {
+//         size: state.size,
+//         page: state.currentPage
+//     }
+//     if (state.searchText) {
+//         params.search_text = state.searchText
+//     }
+
+//     const result = await boardService.getBoardList(params);
+//     state.list = result.resultData;
+// })
+
+
+const getBoardList = async () => {
     const params = {
-        size: state.size,
         page: state.currentPage
+        , size: state.size
+    };
+    if(state.searchText) {
+        params.search_text = state.searchText;
     }
-    if (state.searchText) {
-        params.search_text = state.searchText
-    }
-
-    const result = await boardService.getBoardList(params);
+    const result = await boardService.getBoardList( params );
     state.list = result.resultData;
-})
+}
+
+onMounted(() => {
+    doSearch();
+});
+
+const goToPage = page => {
+    console.log(typeof page);
+    state.currentPage = page;
+    getBoardList();
+    //scrollToTop();
+}
+
+const doSearch = () => {
+    state.currentPage = 1;
+    getBoardMaxPage();
+    getBoardList(); 
+}
+
+//페이징 그룹의 번호 갯수
+const pageGroupSize = 10; 
+//현재 페이지 그룹 계산
+const currentGroup = computed( () => Math.ceil(state.currentPage / pageGroupSize) );
+//현재 그룹의 시작 페이지 번호
+const startPage = computed( () => ((currentGroup.value - 1) * pageGroupSize + 1) );
+const endPage = computed( () => Math.min(currentGroup.value * pageGroupSize, state.maxPage) );
+const displayedPages = computed( () => {
+    const pages = [];
+    for(let i=startPage.value; i<=endPage.value; i++) {
+        pages.push(i);
+    }
+    return pages;
+} );
+
+const goToFirstPage = () => {
+    goToPage(1);
+}
+const goToPrevPage = () => {
+    const prevPage = startPage.value - 1;
+    if(prevPage < 1) { return; }
+    goToPage(prevPage);
+}
+
+const goToNextPage = () => {
+    const nextPage = endPage.value + 1;
+    if(nextPage > state.maxPage) { return; }
+    goToPage(nextPage);
+}
+const goToLastPage = () => {
+    goToPage(state.maxPage);
+}
+
+const moveToDetail = (id) =>{
+    alert(id)
+}
 </script>
 
 <template>
-    <h3>게시판 리스트</h3>
-    <div>
-        <input type="search" v-model="state.searchText">
-        <button>검색</button>
+<h3>게시판 리스트</h3>
+<div>
+    <input type="search" v-model="state.searchText" @keyup.enter="doSearch">
+    <button @click="doSearch">검색</button>
+</div>
+<div v-if="state.list.length === 0">게시글이 없습니다.</div>
+<div v-else>
+    <table>
+        <thead>
+            <tr>
+                <th>no</th>
+                <th>title</th>
+                <th>writer</th>
+                <th>created at</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="item in state.list" :key="item.id">
+                <td>{{ item.id }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.nm }}</td>
+                <td>{{ item.createdAt }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pagination">
+        <button @click="goToFirstPage" :disabled="startPage === 1">&lt;&lt;</button>
+        <button @click="goToPrevPage" :disabled="startPage === 1">&lt;</button>
+        <span class="page" v-for="item in displayedPages" 
+            :key="item" :class="{selected: item == state.currentPage}" @click="goToPage(item)">
+            {{ item }}
+        </span>
+        <button @click="goToNextPage" :disabled="endPage === state.maxPage">&gt;</button>
+        <button @click="goToLastPage" :disabled="endPage === state.maxPage">&gt;&gt;</button>
     </div>
-    <main>
-        <div v-if="state.list.length === 0">
-            게시글이 없습니다.
-        </div>
-        <table v-else>
-            <thead>
-                <tr>
-                    <th>NO</th>
-                    <th>TITLE</th>
-                    <th>NAME</th>
-                    <th>DATE</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in state.list" :key="item.id">
-                    <td>{{ item.id }}</td>
-                    <td>{{ item.title }}</td>
-                    <td>{{ item.nm }}</td>
-                    <td>{{ item.createdAt }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="page">
-            <span v-for="item in state.maxPage" :class="state.currentPage ? 'selectee':''" :key="i">{{ item }}</span>
-        </div>
-    </main>
+</div>
 
 </template>
 
