@@ -20,6 +20,14 @@ class BoardService{
         const res = await axios.get(`${this.#url}/${id}`);
         return res.data;
     }
+    async deleteBoard(params){
+        const res = await axios.delete(this.#url, { params });
+        return res.data;
+    }
+    async update(jsonBody){
+        const res = await axios.put(this.#url, jsonBody);
+        return res.data;
+    }
 }
 
 export default new BoardService();

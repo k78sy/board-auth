@@ -24,13 +24,13 @@ public class BoardController {
         req.setUserId(userPrincipal.getSignedUserId());
         log.info("signedUserId: {}", userPrincipal.getSignedUserId());
         log.info("req: {}", req);
-        int result = boardService.postBoard(req);
-        String message = result == 1? "등록성공" : "등록실패";
-        return new ResultResponse<>(message, result);
+        long id = boardService.postBoard(req);
+        String message = id > 0? "등록성공" : "등록실패";
+        return new ResultResponse<>(message, id);
     }
 
     @GetMapping
-    public ResultResponse<?> getBoardList(@ModelAttribute BoardGetReq req){
+    public ResultResponse<?> getBoardList(@ModelAttribute BoardGetReq req){ //ReauestParam 하나정도만 일때.. @ModelAttribute는...
         log.info("req: {}", req);
         List<BoardGetRes> list = boardService.getBoardList(req);
         return new ResultResponse<>(String.format("%d rows", list.size()), list);
@@ -48,5 +48,24 @@ public class BoardController {
     public ResultResponse<?> getBoard(@PathVariable int id){
         BoardGetOneRes detail = boardService.getBoardDetail(id);
         return new ResultResponse<>(String.format("Article no: %d", id), detail);
+    }
+
+    @DeleteMapping
+    public ResultResponse<?> deleteBoard(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                         @ModelAttribute BoardDelReq req){
+        req.setSignedUserId(userPrincipal.getSignedUserId()); //로그인한 사용자의 id값 담기
+        log.info("req {}", req);
+        int result = boardService.deleteBoard(req);
+        return new ResultResponse<>(result == 1? "삭제성공" : "삭제 권한이 없습니다", result);
+    }
+
+    @PutMapping
+    public ResultResponse<?> updateBoard(@AuthenticationPrincipal UserPrincipal userPrincipal
+                                        ,@RequestBody BoardPutReq req){
+        req.setSignedUserId( userPrincipal.getSignedUserId() );
+//        log.info("signedUserId: {}", userPrincipal.getSignedUserId());
+//        log.info("req: {}", req);
+        int result = boardService.updateBoard(req);
+        return new ResultResponse<>(result == 1? "수정성공" : "수정 권한이 없습니다", result);
     }
 }

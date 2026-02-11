@@ -7,9 +7,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BoardPostReq {
-    private long id; // insert한 row의 PK값 담을 공간 할당
+public class BoardPutReq {
+    private long id;
     private String title;
     private String contents;
-    private long userId;
+    private long signedUserId;
 }

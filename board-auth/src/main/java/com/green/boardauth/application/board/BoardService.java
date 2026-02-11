@@ -13,8 +13,9 @@ import java.util.List;
 public class BoardService {
     private final BoardMapper boardMapper;
 
-    public int postBoard(BoardPostReq req){
-        return boardMapper.save(req);
+    public long postBoard(BoardPostReq req){
+        int result = boardMapper.save(req); // 영향받은 행
+        return req.getId();
     }
 
     public List<BoardGetRes> getBoardList(BoardGetReq req){
@@ -26,5 +27,13 @@ public class BoardService {
 
     public BoardGetOneRes getBoardDetail(int id){
         return boardMapper.findOne(id);
+    }
+
+    public int deleteBoard(BoardDelReq req){
+        return boardMapper.deleteOne(req);
+    }
+
+    public int updateBoard(BoardPutReq req){
+        return boardMapper.update(req);
     }
 }

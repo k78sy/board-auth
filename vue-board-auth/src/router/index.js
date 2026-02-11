@@ -39,6 +39,10 @@ const router = createRouter({
       component: BoardWriteMod,
       meta: { requiresAuth: true }
     },
+    // {
+    //   path: "/board/mod/:id",
+    //   component: BoardWriteMod,
+    // },
     {
       path: "/board/list",
       component: BoardList,
