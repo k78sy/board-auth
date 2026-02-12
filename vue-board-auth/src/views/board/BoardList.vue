@@ -2,6 +2,8 @@
 import boardService from '@/services/boardService';
 import { onMounted, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAuthenticationStore } from '@/stores/authentication';
+const authentication = useAuthenticationStore();
 
 const router = useRouter();
 
@@ -134,15 +136,59 @@ const clickRelatedText = (idx) => {
     state.searchText = state.relatedSearchList[idx];
     doSearch();
 }
+
+
+const todyaNow = new Date();
+
+const formatRelativeTime = (createdAt) => {
+    if (!createdAt) return '';
+
+    const createdDate = new Date(createdAt);
+
+    // 차이 계산 (밀리초 단위 -> 초 단위)
+    const diffInSeconds = Math.floor((todyaNow - createdDate) / 1000);
+
+    // 3. 조건별 문구 반환
+    if (diffInSeconds < 60) {
+        return '방금 전';
+    }
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+
+    if (diffInMinutes < 10) {
+        return `${diffInMinutes}분 전`; // 1~9분 전
+    }
+    if (diffInMinutes < 60) {
+        return `${Math.floor(diffInMinutes / 10) * 10}분 전`; // 10분 전, 20분 전...
+    }
+
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 12) {
+        return `${diffInHours}시간 전`; // 1~11시간 전
+    }
+
+    const diffInDay = Math.floor(diffInHours / 12);
+    if(diffInDay < 7){
+        return `${diffInDay}일 전`; // 1일~7일 전
+    }
+
+    // 12시간이 넘어가면 날짜만 (예: 2024-05-20)
+    return createdAt.split(' ')[0];
+};
+
 </script>
 
 <template>
     <div class="board-list">
-        <div class="search-container">
-            <input type="search" v-model="state.searchText" @keyup="typing" @keyup.enter="doSearch">
-            <button @click="doSearch">검색</button>
-            <div class="related-search-container" v-if="state.relatedSearchList.length > 0">
-                <div v-for="item, idx in state.relatedSearchList" @click="clickRelatedText(idx)">{{ item }}</div>
+        <div class="board-header">
+            <template v-if="authentication.state.isSigned">                
+                <router-link to="/board/write"  class="board-btn">WRITE</router-link>
+            </template>
+            <div class="search-container">
+                <input type="search" v-model="state.searchText" @keyup="typing" @keyup.enter="doSearch">
+                <button @click="doSearch" class="board-btn">search</button>
+                <div class="related-search-container" v-if="state.relatedSearchList.length > 0">
+                    <div v-for="item, idx in state.relatedSearchList" @click="clickRelatedText(idx)">{{ item }}</div>
+                </div>
             </div>
         </div>
         <div v-if="state.list.length === 0">게시글이 없습니다.</div>
@@ -151,8 +197,8 @@ const clickRelatedText = (idx) => {
                 <tr>
                     <th>no</th>
                     <th>title</th>
-                    <th>writer</th>
-                    <th>created at</th>
+                    <th>author</th>
+                    <th>date</th>
                 </tr>
             </thead>
             <tbody>
@@ -160,19 +206,19 @@ const clickRelatedText = (idx) => {
                     <td>{{ item.id }}</td>
                     <td>{{ item.title }}</td>
                     <td>{{ item.nm }}</td>
-                    <td>{{ item.createdAt }}</td>
+                    <td>{{ formatRelativeTime(item.createdAt) }}</td>
                 </tr>
             </tbody>
         </table>
         <div class="pagination">
-            <button @click="goToFirstPage" :disabled="startPage === 1">&lt;&lt;</button>
-            <button @click="goToPrevPage" :disabled="startPage === 1">&lt;</button>
+            <button @click="goToFirstPage" v-if="startPage != 1">&lt;&lt;</button>
+            <button @click="goToPrevPage" v-if="startPage != 1">&lt;</button>
             <span class="page" v-for="item in displayedPages" :key="item"
                 :class="{ selected: item == state.currentPage }" @click="goToPage(item)">
                 {{ item }}
             </span>
-            <button @click="goToNextPage" :disabled="endPage === state.maxPage">&gt;</button>
-            <button @click="goToLastPage" :disabled="endPage === state.maxPage">&gt;&gt;</button>
+            <button @click="goToNextPage" v-if="endPage != state.maxPage">&gt;</button>
+            <button @click="goToLastPage" v-if="endPage != state.maxPage">&gt;&gt;</button>
         </div>
     </div>
 </template>
@@ -185,24 +231,5 @@ const clickRelatedText = (idx) => {
 
 .pagination * {
     cursor: pointer;
-}
-
-.pagination button {}
-
-.pagination span {
-    padding: 0 3px;
-}
-
-.page {
-    cursor: pointer;
-}
-
-.page:not(:first-child) {
-    margin-left: 8px;
-}
-
-.selected {
-    color: red;
-    font-weight: bold;
 }
 </style>

@@ -27,37 +27,53 @@ header a{color: #fff;text-decoration: none;text-transform: uppercase;font-weight
 header nav{}
 header .user-container{}
 header .user-container span{color: #fff;opacity: 0.6;}
+header .user-container span strong{opacity: 1;}
+
+
+.board-btn{color: #fff;border: none;height: 30px;border-radius:5px;display:inline-flex;align-items: center;font-size: .8em;padding: 3px 10px;font-weight: bold;text-transform: uppercase;background: #aaa;}
+.board-btn:hover{filter:brightness(1.2);cursor: pointer;}
+
 
 main{display: flex;flex-direction: column;align-items: center;}
+main > div {max-width:900px;width: 100%;padding: 20px 0;}
+main > div h3{text-align: center;margin-bottom: 20px;font-weight: 500;}
 
+.board-header{display: flex;justify-content: space-between;}
+.board-header > a{text-decoration: none;}
 
-
-.search-container{position: relative;margin-bottom: 15px;justify-self: flex-end;}
-.search-container input{background: #fff;padding: 5px;border: none;height: 40px;border-radius: 5px;margin-right: 5px;}
-.search-container button{background-color: var(--main-color);color: #fff;border: none;width: 40px;height: 40px;border-radius:5px;}
-.search-container button:hover{filter:brightness(1.2);cursor: pointer;}
+.search-container{position: relative;justify-self: flex-end;}
+.search-container input{background: #fff;padding: 5px;border: none;height: 30px;border-radius: 5px;margin-right: 5px;}
+.search-container button{background-color: var(--main-color);}
 .related-search-container{position: absolute;left: 0;top: 30px;background-color: #fff;z-index: 5;width: 210px;padding: 5px;box-shadow: 0 0 10px rgba(0,0,0,0.2);}
 .related-search-container div:hover{ cursor: pointer;background: #eee;}
 
-.board-list{max-width:1000px;width: 100%;padding: 20px 0;}
+.board-list{}
 
 .board-list table{width: 100%;border-collapse: collapse;background: #fff;overflow: hidden;border-radius: 15px;margin: 20px 0;}
 .board-list thead{}
-.board-list thead th{font-weight: bold;padding: 15px 0;}
+.board-list thead th{font-weight: bold;padding: 15px 0;text-transform: uppercase;background-color: #fdfdfd;}
 .board-list th{}
 .board-list tbody tr:hover{background: #eee;cursor: pointer;}
 .board-list tbody tr{border-top: 1px solid #eee;}
 .board-list tbody td{padding: 7px 0;}
 
-.board-list th:nth-of-type(1), .board-list td:nth-of-type(1){width: 60px;text-align: center;}
+.board-list th:nth-of-type(1), .board-list td:nth-of-type(1){width: 80px;text-align: center;}
 .board-list th:nth-of-type(2), .board-list td:nth-of-type(2){width: calc(100% - 300px);}
-.board-list th:nth-of-type(3), .board-list td:nth-of-type(3){width: 100px;}
-.board-list th:nth-of-type(4), .board-list td:nth-of-type(4){width: 160px;}
+.board-list th:nth-of-type(3), .board-list td:nth-of-type(3){width: 70px;text-align: center;}
+.board-list th:nth-of-type(4), .board-list td:nth-of-type(4){width: 100px; text-align: center;}
 
-
+.board-list tbody td:nth-of-type(2){padding-left: 10px;}
 .board-list tbody td:nth-of-type(3){color: #999;}
 
-.pagination{background: #fff;    justify-self: center;}
-.pagination button{}
-.pagination span{}
-.pagination span:selected{}
+.pagination{background: #fff; justify-self: center;border-radius: 10px;padding: 5px;}
+.pagination button{background: none;border: none;opacity: 0.3;}
+.pagination button:hover{opacity: 1;}
+.pagination span{opacity: 0.3;padding:0 8px;font-size: .85em;font-weight: bold;}
+.pagination span:hover{opacity: 1;}
+.pagination span.selected{font-weight: bold;color: var(--main-color);opacity: 1;}
+
+.board-write{width: 100%}
+.board-write div{margin-bottom: 10px;}
+.board-write input, .board-write textarea{width: 100%;background: #fff;border: none;padding: 10px;}
+.board-write textarea{min-height: 400px;}
+.board-write .btn-container{display: flex;justify-content: center;gap:10px}

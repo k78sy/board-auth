@@ -16,17 +16,19 @@ const doSignout = async () => {
 
 <template>
   <header>
-    <div>
-      <router-link to="/">홈</router-link>
-      <router-link to="/board/list">리스트</router-link>
+    <nav>
+      <router-link to="/">Home</router-link>
+      <router-link to="/board/list">List</router-link>
+    </nav>
+
+    <div class="user-container">
       <template v-if="authentication.state.isSigned">
-        <span>{{ authentication.state.signedUser.nm }}님 환영합니다.</span>
-        <router-link to="/board/write">글쓰기</router-link>
-        <a href="" @click.prevent="doSignout">로그아웃</a>
+        <span><strong>{{ authentication.state.signedUser.nm }}</strong>님 환영합니다.</span>
+        <a href="" @click.prevent="doSignout">Logout</a>
       </template>
       <template v-else>
-        <router-link to="/signup">회원가입</router-link>
-        <router-link to="/signin">로그인</router-link>
+        <router-link to="/signup">Sign up</router-link>
+        <router-link to="/signin">sign in</router-link>
       </template>
     </div>
   </header>

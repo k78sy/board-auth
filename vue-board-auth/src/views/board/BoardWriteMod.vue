@@ -34,6 +34,13 @@ onMounted(() => {
 
 
 const submit = async () => {
+    if(!state.board.title){
+        alert('제목을 작성하세요!');
+        return;
+    }else if(!state.board.contents){
+        alert('내용을 작성하세요!');
+        return;
+    }
     const result = await (state.board.id
         ? boardService.update(state.board)
         : boardService.post(state.board)
@@ -55,10 +62,14 @@ const submit = async () => {
 
 
 <template>
-    <h3>{{ state.board.id ? '글수정' : '글쓰기' }}</h3>
-    <div><input type="text" placeholder="제목" v-model="state.board.title"></div>
-    <div><textarea placeholder="내용" v-model="state.board.contents"></textarea></div>
-    <div><button @click="submit">{{ state.board.id ? '수정' : '등록' }}</button></div>
+    <div class="board-write">
+        <h3>{{ state.board.id ? 'Article Modify' : 'New Article' }}</h3>
+        <div><input type="text" placeholder="제목" v-model="state.board.title"></div>
+        <div><textarea placeholder="내용" v-model="state.board.contents"></textarea></div>
+        <div class="btn-container">
+            <button class="board-btn" @click="router.go(-1)">back</button>
+            <button class="board-btn" @click="submit">{{ state.board.id ? 'MODIFY' : 'SUBMIT' }}</button></div>
+    </div>
 </template>
 
 <style scoped></style>
