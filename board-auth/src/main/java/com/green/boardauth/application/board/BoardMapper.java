@@ -13,4 +13,5 @@ public interface BoardMapper {
     BoardGetOneRes findOne(int id);
     int deleteOne(BoardDelReq req);
     int update(BoardPutReq req);
+    List<String> relatedSearchTitle(String searchText);
 }

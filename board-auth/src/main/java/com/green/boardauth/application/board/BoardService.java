@@ -36,4 +36,8 @@ public class BoardService {
     public int updateBoard(BoardPutReq req){
         return boardMapper.update(req);
     }
+
+    public List<String> relatedSearchTitle(String searchText){
+        return boardMapper.relatedSearchTitle(searchText);
+    }
 }

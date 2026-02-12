@@ -47,4 +47,11 @@
         WHERE id = #{id}
         AND user_id = #{signedUserId}
     </update>
+
+    <select id="relatedSearchTitle">
+        SELECT distinct title
+        FROM board
+        WHERE title LIKE '${searchText}%'
+        LIMIT 10
+    </select>
 </mapper>

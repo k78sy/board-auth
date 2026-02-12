@@ -36,7 +36,6 @@ public class BoardController {
         return new ResultResponse<>(String.format("%d rows", list.size()), list);
     }
 
-
     @GetMapping("max_page")
     public ResultResponse<?> getBoardMaxPage(@ModelAttribute BoardGetMaxPageReq req){
         log.info("req: {}", req);
@@ -68,4 +67,11 @@ public class BoardController {
         boardService.updateBoard(req);
         return new ResultResponse<>("수정성공", req.getId());
     }
+
+    @GetMapping("related_search")
+    public ResultResponse<?> getRelatedSearchText(@RequestParam(name="search_text") String searchText){
+        List<String> result = boardService.relatedSearchTitle(searchText);
+        return new ResultResponse<>("검색결과", result);
+    }
+
 }
