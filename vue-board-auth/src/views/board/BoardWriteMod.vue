@@ -41,11 +41,12 @@ const submit = async () => {
     console.log('result: ', result)
 
     if (result.resultData) {
-        router.push(
-            result.resultMessage == "수정성공"
-            ? `/board/${state.board.id}`
-            : `/board/${result.resultData}`
-        )
+        // router.push(
+        //     result.resultMessage == "수정성공"
+        //     ? `/board/${state.board.id}`
+        //     : `/board/${result.resultData}`
+        // )
+        router.push(`/board/${result.resultData}`);
     } else {
         alert(result.resultMessage);
     }

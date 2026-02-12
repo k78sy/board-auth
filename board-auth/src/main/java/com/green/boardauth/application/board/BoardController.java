@@ -65,7 +65,7 @@ public class BoardController {
         req.setSignedUserId( userPrincipal.getSignedUserId() );
 //        log.info("signedUserId: {}", userPrincipal.getSignedUserId());
 //        log.info("req: {}", req);
-        int result = boardService.updateBoard(req);
-        return new ResultResponse<>(result == 1? "수정성공" : "수정 권한이 없습니다", result);
+        boardService.updateBoard(req);
+        return new ResultResponse<>("수정성공", req.getId());
     }
 }
