@@ -1,7 +1,9 @@
 @import './base.css';
-
+:root{
+  --theme-color:#F06060;
+}
 #app {
-  max-width: 1280px;
+  
   margin: 0 auto;
   padding: 2rem;
   font-weight: normal;
@@ -17,3 +19,29 @@ a,
 @media (min-width: 1024px) {
 
 }
+
+body {background: #f5f5f5;}
+
+.search-container{position: relative;margin-bottom: 15px;}
+.search-container input{background: #fff;padding: 5px;border: none;height: 40px;border-radius: 5px;margin-right: 5px;}
+.search-container button{background-color: var(--theme-color);color: #fff;border: none;width: 40px;height: 40px;border-radius:5px;}
+.search-container button:hover{filter:brightness(1.2);cursor: pointer;}
+.related-search-container{position: absolute;left: 0;top: 30px;background-color: #fff;z-index: 5;width: 210px;padding: 5px;box-shadow: 0 0 10px rgba(0,0,0,0.2);}
+.related-search-container div:hover{ cursor: pointer;background: #eee;}
+
+.board-list{width: 100%;}
+
+.board-list table{max-width:1000px;width: 100%;border-collapse: collapse;background: #fff;overflow: hidden;border-radius: 20px;}
+
+.board-list thead{}
+.board-list thead th{font-weight: bold;}
+
+.board-list th{}
+
+.board-list tr{}
+
+.board-list tbody tr:hover{background: #eee;}
+.board-list th:nth-of-type(1), .board-list td:nth-of-type(1){width: 40px;}
+.board-list th:nth-of-type(2), .board-list td:nth-of-type(2){width: calc(100% - 300px);}
+.board-list th:nth-of-type(3), .board-list td:nth-of-type(3){width: 100px;}
+.board-list th:nth-of-type(4), .board-list td:nth-of-type(4){width: 160px;}

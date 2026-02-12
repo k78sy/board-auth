@@ -28,6 +28,10 @@ class BoardService{
         const res = await axios.put(this.#url, jsonBody);
         return res.data;
     }
+    async getBoardRealatedTitles(params){
+        const res = await axios.get(`${this.#url}/related_search`, { params });
+        return res.data;
+    }
 }
 
 export default new BoardService();

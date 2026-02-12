@@ -14,8 +14,8 @@
         INNER JOIN user u
         ON b.user_id = u.id
         <if test=" searchText != null and searchText != '' ">
-            WHERE b.title LIKE '%${searchText}%'
-               OR b.contents LIKE '%${searchText}%'
+            WHERE b.title LIKE CONCAT('%', #{searchText}, '%')
+               OR b.contents LIKE CONCAT('%', #{searchText}, '%')
         </if>
         ORDER BY b.id DESC
         LIMIT #{startIdx}, #{size}
@@ -23,8 +23,8 @@
     <select id="findMaxPage">
         SELECT CEIL( COUNT(1) / #{size} ) FROM board
         <if test=" searchText != null and searchText != '' ">
-            WHERE title LIKE '%${searchText}%'
-            OR contents LIKE '%${searchText}%'
+            WHERE title LIKE CONCAT('%', #{searchText}, '%')
+            OR contents LIKE CONCAT('%', #{searchText}, '%')
         </if>
     </select>
     <select id="findOne">
@@ -49,9 +49,9 @@
     </update>
 
     <select id="relatedSearchTitle">
-        SELECT distinct title
+        SELECT DISTINCT title
         FROM board
-        WHERE title LIKE '${searchText}%'
+        WHERE title LIKE CONCAT(#{searchText}, '%')
         LIMIT 10
     </select>
 </mapper>
