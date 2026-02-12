@@ -1,12 +1,12 @@
 @import './base.css';
+*{box-sizing: border-box;}
+
 :root{
-  --theme-color:#F06060;
+  --bg-color:#8CBEB2;
+  --main-color:#F06060;
 }
 #app {
-  
-  margin: 0 auto;
   padding: 2rem;
-  font-weight: normal;
 }
 
 a,
@@ -22,26 +22,42 @@ a,
 
 body {background: #f5f5f5;}
 
-.search-container{position: relative;margin-bottom: 15px;}
+header{background-color:var(--bg-color);display: flex;justify-content: space-between;padding: 10px;border-radius: 7px;}
+header a{color: #fff;text-decoration: none;text-transform: uppercase;font-weight: bold;font-size: 0.9em;padding: 2px 10px;}
+header nav{}
+header .user-container{}
+header .user-container span{color: #fff;opacity: 0.6;}
+
+main{display: flex;flex-direction: column;align-items: center;}
+
+
+
+.search-container{position: relative;margin-bottom: 15px;justify-self: flex-end;}
 .search-container input{background: #fff;padding: 5px;border: none;height: 40px;border-radius: 5px;margin-right: 5px;}
-.search-container button{background-color: var(--theme-color);color: #fff;border: none;width: 40px;height: 40px;border-radius:5px;}
+.search-container button{background-color: var(--main-color);color: #fff;border: none;width: 40px;height: 40px;border-radius:5px;}
 .search-container button:hover{filter:brightness(1.2);cursor: pointer;}
 .related-search-container{position: absolute;left: 0;top: 30px;background-color: #fff;z-index: 5;width: 210px;padding: 5px;box-shadow: 0 0 10px rgba(0,0,0,0.2);}
 .related-search-container div:hover{ cursor: pointer;background: #eee;}
 
-.board-list{width: 100%;}
+.board-list{max-width:1000px;width: 100%;padding: 20px 0;}
 
-.board-list table{max-width:1000px;width: 100%;border-collapse: collapse;background: #fff;overflow: hidden;border-radius: 20px;}
-
+.board-list table{width: 100%;border-collapse: collapse;background: #fff;overflow: hidden;border-radius: 15px;margin: 20px 0;}
 .board-list thead{}
-.board-list thead th{font-weight: bold;}
-
+.board-list thead th{font-weight: bold;padding: 15px 0;}
 .board-list th{}
+.board-list tbody tr:hover{background: #eee;cursor: pointer;}
+.board-list tbody tr{border-top: 1px solid #eee;}
+.board-list tbody td{padding: 7px 0;}
 
-.board-list tr{}
-
-.board-list tbody tr:hover{background: #eee;}
-.board-list th:nth-of-type(1), .board-list td:nth-of-type(1){width: 40px;}
+.board-list th:nth-of-type(1), .board-list td:nth-of-type(1){width: 60px;text-align: center;}
 .board-list th:nth-of-type(2), .board-list td:nth-of-type(2){width: calc(100% - 300px);}
 .board-list th:nth-of-type(3), .board-list td:nth-of-type(3){width: 100px;}
 .board-list th:nth-of-type(4), .board-list td:nth-of-type(4){width: 160px;}
+
+
+.board-list tbody td:nth-of-type(3){color: #999;}
+
+.pagination{background: #fff;    justify-self: center;}
+.pagination button{}
+.pagination span{}
+.pagination span:selected{}
